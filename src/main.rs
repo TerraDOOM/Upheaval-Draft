@@ -35,6 +35,7 @@ struct Mark {
 
 #[derive(Debug, Copy, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
 enum Power {
+    BadKarma,
     Poor,
     #[default]
     Moderate,
@@ -125,7 +126,11 @@ impl Library {
                 if !free {
                     continue;
                 }
-                if draw.power.as_ref().is_some_and(|p| &mark.power != p) {
+                if draw.power.as_ref().is_some_and(|p| match (*p, mark.power) {
+                    (x, y) if x == y => true,
+                    (Power::BadKarma, Power::Poor | Power::Moderate) => true,
+                    _ => false,
+                }) {
                     continue;
                 }
                 if draw.category.as_ref().is_some_and(|c| &mark.category != c) {
@@ -186,6 +191,7 @@ fn parse_library_file<S: AsRef<Path>>(path: S) -> anyhow::Result<Library> {
             "Great" => P::Great,
             "Supreme" => P::Supreme,
             "Unique" => P::Unique,
+            "Bad Karma" => P::BadKarma,
             e => bail!("Unknown power level {:?}", e),
         };
 

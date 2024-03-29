@@ -439,6 +439,7 @@ impl DraftEditor {
 
         if let ElementKind::Power = element_kind {
             let powers = [
+                Power::BadKarma,
                 Power::Poor,
                 Power::Moderate,
                 Power::Good,

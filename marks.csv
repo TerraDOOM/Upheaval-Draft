@@ -1,0 +1,158 @@
+NAME,POWER,CATEGORY,TAG,TAG,DESCRIPTION
+ABJURE,Good,Ability,Movement,Defensive,"Forbid a character from entering an area, and force them to leave if they are there. This lasts until this ability is used again."
+ACT,Good,Passive,Combo,,"In any situation, you are always first to act."
+ADAPT,Moderate,Buff,,,"When a new day begins, you may freely redistribute your dots between your actions and aspects. You do not have to adhere to restrictions gained during bidding when doing this."
+ARM,Great,Ability,Versatile,,"Summon supernatural armor and arms, automatically equipped. The exact nature of the armor and arms is up to the player, but is determined prior to the game."
+ASCEND,Supreme,Passive,Versatile,,"May attempt actions that are physically impossible, e.g. dodge an explosion, squeeze through the eye of a needle."
+BAN,Supreme,Negator,,,"After a character in sight takes an action, you may ban that character from doing it again, preventing them from taking that action. This lasts until you cancel the effect, or you apply another ban to that character. You may only have three bans active."
+BEFRIEND,Good,Passive,,,"Make everyone that sees you believe that you are trustworthy and a good friend, unless you act unreasonably towards them."
+BEND,Good,Ability,Basic,,"You may instantly alter the form of any solid 
+5m x 5m x 5m cube, though the final shape must also be constrained within the cube."
+BLEED,Great,Ability,Attack,,"You may make any wound within sight worse, and potentially lethal. This mark cannot create wounds on its own."
+BLIND,Great,Passive,Information,Defensive,"Other people's heads are always turned in such a way that they aren't looking at you, directly or through intermediates such as mirrors or photographs."
+BORROW,Moderate,Meta,,,"Touch another Chosen to take one of their Marks, disallowing them from using it. Once used up, or when you use BORROW again, the Mark returns to them."
+BOUNCE,Poor,Ability,Basic,,You may bestow elastic properties to anything you touch.
+BUG,Moderate,Passive,Defensive,,"While you are looking at a person, they are unable to perform any action that requires concentration or precision."
+CALL,Supreme,Ability,Basic,Versatile,"Create one sentient entity of any kind, under their control. The entity disappears if a new one is created."
+CHALLENGE,Moderate,Ability,Scaling,,"Three times per day, you may challenge a statement another Chosen makes. Unless they prove it within ten minutes, they lose three max effort, and you gain that much effort. If it's the second time they fail to prove a statement, they instead lose three random Aspect dots, and you gain the same amount of Aspect dots. If it's the third time, they instead lose a random Mark, which you gain."
+CHARGE,Good,Ability,Attack,Movement,"Once per week, move incredibly quickly, become invulnerable for the duration, and make an irresistible attack."
+CHARM,Moderate,Ability,Burnt,Information,"Roll COMMAND against a character. If you succeed, the target will perfectly follow your commands for one hour, as long as they don't mean direct self harm, after which the influence ends, and they have no recall of what happened during that hour."
+CHASE,Moderate,Ability,Movement,,You can choose a person in sight. That person cannot move more than 200 meters away from you. This effect ends when you choose another person or when you want to.
+CHEAT,Supreme,Meta,Limited,,"When used, permanently turns into a Mark specifically designed to come out victorious in the current situation."
+CLONE,Good,Ability,,,"Can create up to three clones of yourself, giving one or more of your other marks from yourself to each clone you create. Should a clone die, the marks it had are returned to you. Should you die, you become one of your clones."
+COMMUNE,Poor,Ability,Basic,,"With some focus and time spent, you can communicate with objects and beings that usually can not. They behave like an NPC, and may independently take action while this is active."
+COMPEL,Great,Passive,Basic,,"If you verbally tell someone else to take an action, they must take the action. This works once per person."
+CONGEAL,Poor,Ability,,,"You can turn air thick and mucus like, slowing travel but allowing those affected to swim through the air. It is still breathable to you."
+CONSUME,Good,Buff,Scaling,,"Remove a MARK from yourself or a fallen Chosen, increase any Action three times, they do not have to be the same Action. This can increase an Action beyond four points."
+COOK,Moderate,Meta,Limited,Burnt,"Once, create a mark by combining one base, any amount of ingredients, and one spice, taken from anything in the Pantry that you have unlocked. Gain that mark."
+CORRECT,Poor,Passive,,,"Anyone within earshot of you may not consciously/willingly lie. If they attempt to do so, they instead inadvertently say the truth. Individuals are not innately aware of this effect."
+COUP,Poor,Ability,,,"For every three narrative reasonings you make that you should succeed at something, gain one die towards succeeding. For every three narrative reasonings an opponent makes against your success, lose one die towards succeeding."
+CRAFT,Supreme,Ability,Scaling,,"Allows access to the special action ""Craft"", which allows the creation of items with mystical power."
+CREATE,Great,Ability,Basic,,May materialize objects out of thin air.
+CREEP,Good,Passive,,,"Nobody can perceive you while you are moving, but only if you move slower than a walking pace. This does not apply when you are standing still/not moving. Hasty movements of for example arms also cancel the effect"
+CUT,Great,Buff,,,All actions taken with cutting implements have Great effect.
+DAWN,Good,Buff,Scaling,Healing,"Regenerate the rightmost health tick at the start of every day. If your health track is empty, gain a point in an Action of your choice. This can bring an Action beyond 4 points."
+DECREE,Unique,,,,"Once, declare a rule. Within a kilometer of you, the rule is a natural law. You may cancel this rule."
+DEDUCE,Poor,Passive,Information,,"Before you would take an action, you know exactly what would happen on a failure, partial success, and complete success."
+DELIBERATE,Poor,Ability,Information,,State a goal and up to three potential actions. You immediately know which action would get you closest to achieving your goal assuming success. You can only use this mark once per different goal per day.
+DEPLETE,Good,Buff,,,"The first time you use an item in an action, it has increased position and effect. If you use an item more than three times, it has decreased position and effect."
+DESCEND,Good,Ability,Attack,,"Once per week, pull everything and everyone on the scene into an intensely hostile area, filled with nightmarish creatures. You are immune to the environment, and the creatures ignore you."
+DESIGN,Great,Ability,Scaling,,May create gadgets with magical effects. Treat them as one-use Marks. May make one per day.
+DESIRE,Unique,,,,"Once, name any one thing that you are aware of that exists, even if only vaguely, and/or abstract. You are given/granted that one thing."
+DESTROY,Poor,Ability,Basic,,Touch an object. It is reduced to rubble.
+DETERMINE,Great,Buff,,,"Whenever you would make an action roll, fail. Seven times per week, instead succeed."
+DEVOUR,Good,Negator,Defensive,,"Three times per week, negate an effect. Gain a temporary power boost equivalent to that effect’s power."
+DIVERSIFY,Moderate,Meta,Limited,,"Freely pick 2 marks after everyone else has finished picking marks, they replace this mark."
+DIVINE,Good,Passive,Information,,"Automatically see any Marks a Chosen has on sight, along with how many uses are left, if applicable."
+DRAIN,Moderate,Passive,Scaling,,"Have no maximum effort, and regenerate no effort between sessions. Whenever you inflict any amount of harm, gain thrice that much effort."
+DRILL,Moderate,Buff,Scaling,,"Each time you succeed at an action, increase the position or effect of future attempts at that action against the same target by one."
+EMBROIDER,Good,Ability,Basic,,"You can change the surface properties of any surface that comes into direct contact with your skin, such as color, reflectivity, texture, and material strength."
+EMIT,Good,Meta,Combo,,"You can use close-range or touch effects up to a distance of 10 meters, albeit with reduced effect."
+END,Good,Ability,Attack,,"Once per week, designate a person who is aware of you and within a kilometer. After ten minutes have passed, they die. During this time, you must remain in concentration, and should you be interrupted, the effect is canceled. The target becomes aware of the limitations of END upon use."
+ENVISION,Great,Ability,Basic,,"While undisturbed and still, reshape and redesign objects and terrain within your field of view. The longer you remain concentrated, the greater the effect."
+EVADE,Good,Ability,Defensive,,"Once per scene, you may automatically resist without spending effort."
+EXALT,Good,Meta,Versatile,,"At the start of the game, choose 3 marks together with the GM. Once per week, gain those marks for the rest of the scene."
+EXCEL,Great,Meta,,,Spend one effort to recreate the effect of any Mark that isn't overtly supernatural.
+EXERT,Great,Ability,,,"Three times per week, exert truly superhuman strength, e.g. rip open a canyon from the landscape."
+EXPLODE,Supreme,Ability,Basic,,Can create explosions at will with controlled size and effect anywhere on an object by simply touching it. Explosions do not affect the user.
+FADE,Good,Ability,Defensive,,"Once per week, become completely unrecognizable and unnoticeable for a scene."
+FINISH,Unique,,,,"Once, gain any two Marks, then make all your Marks perfect and gain an infinite amount of effort. At the end of the scene, lose your Chosen status, along with all your marks, title, effort, and half of your action and aspect dots."
+FLICKER,Great,Ability,Basic,,Control light within 10 meters
+FLOAT,Supreme,Ability,Basic,,"Control the force and direction of gravity upon objects you’ve touched, as long as they remain within a 10m radius"
+FLOOD,Great,Ability,Basic,,Control water within a 10m radius
+FLOW,Good,Ability,Defensive,,"For one scene per week, consequences require no effort to resist, and all actions are at least standard effect."
+FLUKE,Good,Buff,,,"Once per scene, flip any amount of dice in a roll."
+FLY,Good,Passive,Movement,,You can fly at 150km/h
+FOLD,Good,Ability,Basic,,"You may fold anything in sight. This is a space warping effect, and as such, does not affect the integrity of the folded object, and always creates a sharp edge along the crease."
+FRAME,Good,Ability,,,"While active, anything in sight may not move outside of your sight."
+FUSE,Great,Ability,,,"Once per week, fuse with an element and command it perfectly for a scene."
+GAIN,Poor,Buff,,,"Whenever you make an Action roll in a scene where you are competing against a Chosen, gain a point in that Action. These points last until the end of the scene."
+GAMBLE,Moderate,Ability,,,"Whenever you take an action, name a number. You have a 50/50 chance to increase the amount of dice on that action by said number, or decrease the amount of dice by half of said number, rounding up."
+GRASP,Good,Ability,Basic,,Can turn anything into a grabbable surface which you can manipulate.
+GUIDE,Moderate,Passive,,,All failures count as partial successes.
+HACK,Poor,Ability,,,Choose an electronic device you've seen previously since your awakening. You have complete control and access to information over it as well as all connected devices within 10 meters of it. Lasts until you establish control of a new device.
+HAMPER,Good,Passive,Defensive,,Lessen the effect of anything that would target you by one step along the effect track.
+HAUNT,Supreme,Ability,Defensive,,"May become immaterial at will, but must stay within one meter of the position you became immaterial in."
+HEAL,Good,Ability,Healing,,Remove all damage from another character.
+IGNITE,Great,Ability,Basic,,"Control fires within 20 meters, and you may start fires at will within this radius."
+IMPROVE,Great,Buff,Scaling,,"Once per day, you can improve an object, making all actions taken with it either 1 more die, increased position, or increased effect. This Mark can stack with itself."
+INFECT,Moderate,Passive,,,"When an infected person touches someone else, they become infected. You may take a penalty, incurring the same penalty to each infected person. An infected person recovers if they have not touched another infected person for 10 hours."
+INVESTIGATE,Good,Passive,Information,Basic,"For any effect you can see, you always know the cause, whether mundane or supernatural."
+INVITE,Good,Ability,,,"Name a person, along with any set of rules. The person is made aware of these rules, and may accept them. If they do, both of you are transported to a separate dimension where these rules are unconditionally enforced. You may only leave this dimension if both you and the other person agree to it, or if the rules allow it."
+ISOLATE,Moderate,Ability,,,"Create an empty pocket dimension roughly a hundred meters wide, bringing one other person with you. You both exit the pocket dimension on your command, or if you die."
+KILL,Great,Passive,Attack,,Unresisted attacks always kill.
+LEARN,Good,Buff,Scaling,,"Each time you take a Desperate or Hopeless action, gain one max effort and one effort. You may spend three max effort and three effort to increase an Action by one."
+LEECH,Poor,Buff,Scaling,,"Whenever you win a contested roll against another Chosen, you gain a point in a random Action, and they lose a point in a random Action."
+LIMIT,Great,Negator,Defensive,,Other Chosen within 500 meters may not use more than one Mark at the same time.
+LINK,Good,Ability,Combo,Basic,"Link two objects, such that any effect applying to one also applies to the other."
+LIQUIFY,Poor,Ability,Basic,,You may turn any object within ten meters of you into water.
+MESSAGE,Moderate,Ability,,,"Telepathically communicate with any person you either know the name of, or is within sight."
+MIMIC,Moderate,Ability,,,"You may act as if any object you touch is another object of similar size, and it will act accordingly."
+MORPH,Poor,Ability,Basic,,Take the form of any roughly humanoid form.
+MORTIFY,Supreme,Passive,,,Perceive abstract concepts that belong to any person or object within a 5m radius. You can kill these concepts to remove them.
+NEGATE,Great,Negator,,,Name a Mark of another Chosen. It cannot be used until another Mark is named.
+OBSCURE,Good,Negator,Information,,Declare an area obscured. Any attempts to find something out about anything inside that area fail.
+PERFECT,Good,Buff,Scaling,,"Once per day, increase an Action by one point. This may increase the Action beyond four points."
+PIERCE,Moderate,Passive,Attack,,"Projectiles fired by you pass through solid, non-living matter."
+PLAY,Moderate,Buff,Burnt,,"Play five open cards and draw two cards. May redraw as an action and may redraw the river with one effort. Have varying effects depending on the possible hand. 
+See manual for full mark"
+PREDICT,Great,Passive,Information,Basic,You can see a few seconds into the future.
+PREVENT,Great,Negator,Defensive,,"Pick an entity and name a specific effect. That effect cannot affect said entity. You may only have three preventions active simultaneously, and at most one per entity."
+RECONNOITRE,Moderate,Passive,Information,,"At the end of every day, you get a short report on what every other Chosen has done during that day, attached to their Title."
+REFLECT,Great,Negator,Defensive,,"Three times per day, turn an effect targeted at you against the person using it."
+REFUSE,Good,Passive,Limited,Defensive,"As long as you have effort, you cannot die. If someone would inflict lethal harm on you, lose one max effort."
+REGRET,Supreme,Ability,Limited,Defensive,"Once, force a consequence of one of your actions upon somebody else in sight, or take the benefits of an action taken by somebody else in sight for yourself."
+REITERATE,Great,Ability,,,"Three times per week, reproduce an effect you’ve produced before. The effect is depowered if its restrictions are stronger than this Mark, or empowered if weaker."
+REMEMBER,Good,Ability,Limited,,"The GM chooses three characters who have participated in a previous game of Upheaval. You may summon one of these. They are not controlled by you, but die if you die."
+REND,Good,Ability,Attack,,"Three times per week, set an opponent to two health-boxes ticked."
+REPLICATE,Great,Meta,,,"You may use any Mark you’ve seen in use, but only once per Mark."
+REPURPOSE,Great,Ability,Combo,,"Allows you to shape an equally powerful effect from a recently used effect, three times per week."
+RESTRAIN,Moderate,Ability,,,"You may put any person you touch into a pocket dimension. Lasts until you release them, or until you put another person into that pocket dimension."
+RESTRUCTURE,Great,Meta,Basic,Combo,"Name a Mark you or another Chosen you’re touching has and restructure it, replacing it with a different Mark keeping to the same theme. If you are restructuring a Mark belonging to another Chosen, you both gain the restructured Mark. The effect lasts until you restructure another Mark."
+RISE,Good,Ability,Healing,Defensive,"Three times per week, remove all harm. Triggers automatically on life-threatening damage."
+ROT,Good,Passive,,,"Every day, you tick your leftmost unfilled tick of your health track. You have increased position and effect on all actions. When you kill a person, untick your rightmost filled tick of your health track."
+RULE,Moderate,Ability,Basic,,May mind control non-Chosen by touching their forehead.
+SCALE,Good,Ability,Basic,,You may resize the dimensions of objects you touch.
+SCOUR,Great,Ability,Limited,Attack,"Once, unleash the might of the sun from mere hundreds of meters above. Melts and kills anything within several kilometers. Does not affect the user."
+SEEK,Good,Ability,Information,,You may name a character or object. Know its location.
+SETUP,Moderate,Buff,,,You have increased position and effect when affecting something that you wouldn’t be able to see from your current position.
+SHARE,Good,Meta,Combo,,"Touch a creature, they may use your other Marks as if they were you. This effect can only be used again once the touched creature chooses to end it on themselves."
+SIMULATE,Good,Ability,Movement,,"If activated, create afterimages behind you as you move. Once activated again, snap back to any of the created afterimages instantly as they disappear."
+SKIP,Poor,Ability,Defensive,,You may freely choose a set amount of time. Upon doing so you disappear and later re-appear where you just were after that amount of time has passed.
+SLITHER,Good,Passive,Movement,Information,"Become invisible during night, and gain the ability to squeeze through openings bigger than 2cm wide."
+SMITE,Good,Ability,Basic,,"Call down a pillar of holy fire at long range, dealing heavy damage."
+SNIPE,Great,Buff,,,"You have increased position, effect, and +1 die when targeting or affecting something further than 100 meters away from you. This benefit is reversed and becomes a penalty instead when dealing with something 10 meters or closer to you."
+SPLIT,Moderate,Ability,,,"Once per week, split into two, allowing you to perform two actions at once for a scene."
+STAIN,Poor,Passive,Scaling,,"Influence an area as you stay in it. The more influenced an area it is, the more it actively aids you when possible. An hour's presence might make it change where a corridor leads. A day's presence might have walls shoot out in front of attacks."
+STAKE,Moderate,Ability,,,"You may wager any items or concepts on a contest, and gain bonuses appropriate to its importance unless the opponent wagers something of equal importance. The winner of the contest takes all wagers."
+STAND,Supreme,Passive,Defensive,,"Resists do not need to roll, they always succeed with full effect."
+STAPLE,Poor,Ability,Basic,,You may attach anything that is touching something else in sight. This lasts until the next time you use this mark.
+STEAL,Moderate,Ability,Basic,,Hold any one object in a pocket dimension. May place that object anywhere within sight.
+STRIDE,Good,Passive,Movement,,"Move incredibly quickly and with incredible balance, light as a feather."
+SUBLIMATE,Poor,Passive,,,You may treat any object as if it were water.
+SUCCOR,Moderate,Ability,Limited,Healing,Permanently reduce one of your Actions by one point to resurrect a being that has died within 24 hours. An Action may not be reduced below 0.
+SUFFER,Moderate,Ability,Defensive,,"Whenever a person within 10 meters of you suffers a negative consequence or effect, you may become the target instead."
+SUMMON,Moderate,Ability,Basic,,"Can name a person or object, instantly calling them/it to your side immediately. To target a Chosen or their possessions, they must be willing."
+SURGE,Good,Ability,,,"May trade position for effect freely, with the ability to go lower than Desperate position and beyond Great effect."
+SURVIVE,Great,Passive,Healing,,"After death, wake up alive at the beginning of the next day."
+SUSPEND,Great,Negator,Defensive,,"Allows suspension of up to three effects, to be released at any moment."
+TAKE,Good,Meta,Scaling,,"When defeating a Chosen, may take one of their Marks."
+TELEPORT,Good,Ability,Movement,,Instantaneously teleport to any place within sight. Must wait a couple of seconds between teleports.
+THROW,Good,Passive,,,"You can throw anything you can pick up with the speed, power and precision of a rifle shot."
+TRADE,Good,Ability,Basic,,You may make any two things that you know of within 50 meters trade places. The trade cannot separate a component from its whole.
+TRANSCEND,Supreme,Negator,Defensive,Scaling,"Three times per week, choose an effect you’ve been affected by. Become immune to that effect."
+TRANSFORM,Good,Ability,Basic,,"You may transform yourself into any living organism. Requires knowing about the chosen organism before transforming. You retain your mind, actions, aspects, and marks while transformed."
+TRIUMPH,Good,Buff,,,"Gain a special Action, “Triumph”, with three points. Triumph can be rolled when attempting any action, but it must be contested by another Chosen. Triumph cannot be raised further."
+TRY,Good,Negator,Defensive,,"Three times per day, if you fail an action, completely resist any consequences of that action. You can not attempt that action again today."
+UNDO,Moderate,Negator,,,"Three times per week, undo an event that just happened. This can undo events that render you otherwise unable to use this Mark."
+UNEARTH,Great,Meta,,,"When a Chosen dies, you gain access to one use of each of their Marks. You lose this access when the next Chosen dies."
+UNSPOOL,Great,Ability,,,"Once per week, rewind time to the beginning of the scene. Chosen retain their memories."
+UPGRADE,Good,Meta,Limited,Combo,"Twice, you may make another Mark held by you or another Chosen Perfect."
+VIEW,Good,Passive,,,You can remotely see and hear any location you know off.
+VOW,Poor,Passive,,,"All promises, contracts or agreements with you are binding, and cannot be broken by means outside said agreement. All who have made such a promise are aware of its nature."
+WATCH,Moderate,Passive,Combo,,"Can directly observe someone through mediums of them, such as a photo of them, video of them, or similar."
+WEAVE,Supreme,Ability,,,Allows access to a special action “Weave.” which can create lasting fantastical effects.
+WEIGH,Poor,Ability,Basic,,You may alter your body’s density freely.
+WISH,Good,Ability,Limited,Versatile,"Five times, fulfills any effect, though you must pay a roughly equivalent cost."
+WITHDRAW,Poor,Ability,,,"Once per scene, remove something or someone from that scene. Whatever was removed re-appears soon after the scene ends, although the exact location & time of the re-appearance is up to the GM."
+WREST,Great,Negator,,,"Take control of an ongoing effect. You keep control of the effect until it expires, or you take control of another effect."

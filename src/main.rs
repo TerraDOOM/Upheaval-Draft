@@ -127,9 +127,9 @@ impl Library {
                     continue;
                 }
                 if draw.power.as_ref().is_some_and(|p| match (*p, mark.power) {
-                    (x, y) if x == y => true,
-                    (Power::BadKarma, Power::Poor | Power::Moderate) => true,
-                    _ => false,
+                    (x, y) if x == y => false,
+                    (Power::BadKarma, Power::Poor | Power::Moderate) => false,
+                    _ => true,
                 }) {
                     continue;
                 }

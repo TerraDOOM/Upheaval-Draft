@@ -148,7 +148,6 @@ impl Library {
                 pool.push(mark);
             }
 
-            eprintln!("{:?}", pool);
             let choice = pool.choose(rng).map(|m| (**m).clone()).unwrap_or(Mark {
                 name: "STUPID".to_string(),
                 power: Power::Poor,

@@ -274,12 +274,6 @@ impl DraftView {
         }
     }
 
-    pub fn clear(&mut self) {
-        self.draft.draws.clear();
-        self.draft.scroll = 0;
-        self.draft.line = 0;
-    }
-
     pub fn draw(&mut self, lib: &Library, f: &mut Frame, rect: Rect) {
         let inactive_tab = Style::default().fg(Color::DarkGray);
         let active_tab = Style::default();
@@ -720,5 +714,6 @@ fn power_str(p: Power) -> Span<'static> {
         Power::Great => "Great".cyan(),
         Power::Supreme => "Supreme".red(),
         Power::Unique => "Unique".magenta(),
+        Power::BadKarma => "Bad Karma".black().on_red().bold(),
     }
 }

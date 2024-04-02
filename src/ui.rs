@@ -2,7 +2,7 @@ use std::{borrow::Cow, cmp, fs::File, io::Write, ops::ControlFlow};
 
 use crossterm::event::{KeyCode, KeyEvent};
 use rand::prelude::*;
-use ratatui::{prelude::*, style::Stylize, widgets::*};
+use ratatui::{layout::Flex, prelude::*, style::Stylize, widgets::*};
 use serde::{Deserialize, Serialize};
 
 use crate::{Draw, Library, Mark, Power, SaveFile};
@@ -27,6 +27,7 @@ pub struct UiState<'a> {
     pub terminal: &'a mut crate::Terminal,
     save_box: Prompt<'static>,
     is_saving: bool,
+    show_help: bool,
     draft_view: DraftView,
     tab: Tab,
     results: Results,
@@ -56,6 +57,7 @@ impl<'a> UiState<'a> {
                 max_width: 32,
                 ..Default::default()
             },
+            show_help: false,
             is_saving: false,
             draft_view: DraftView::new(len),
             tab: Tab::DraftCreation,
@@ -76,6 +78,12 @@ impl<'a> UiState<'a> {
         match ev.code {
             KeyCode::Char('s' | 'S') => {
                 self.is_saving = true;
+            }
+            KeyCode::Char('?') => {
+                self.show_help = true;
+            }
+            KeyCode::Esc if self.show_help => {
+                self.show_help = false;
             }
             k if self.is_saving => {
                 let res = self.save_box.input(ev);
@@ -160,9 +168,94 @@ impl<'a> UiState<'a> {
             if self.is_saving {
                 self.save_box.draw(f, f.size());
             }
+            if self.show_help {
+                show_help_popup(f);
+            }
         })?;
 
         Ok(())
+    }
+}
+
+fn show_help_popup(f: &mut Frame) {
+    static HELP_TEXT: &'static str = include_str!("help_text.txt");
+    let help_text = HELP_TEXT.trim_end();
+
+    let sections = help_text.split("\n---\n");
+    let help_width = HELP_TEXT.lines().map(|l| l.len()).max().unwrap_or(0);
+    let help_height = help_text.lines().count();
+
+    let c = |len| {
+        [
+            Constraint::Fill(1),
+            Constraint::Length(len),
+            Constraint::Fill(1),
+        ]
+    };
+
+    let n_sections = sections.clone().count();
+
+    let c_h = Layout::horizontal(c(help_width as u16 + 4)).split(f.size());
+    let c_v = Layout::vertical(c(help_height as u16 + 4)).split(c_h[1]);
+
+    f.render_widget(Clear, c_v[1]);
+
+    let (areas, _) = Layout::vertical(Constraint::from_lengths(
+        sections.clone().map(|s| s.lines().count() as u16),
+    ))
+    .flex(Flex::SpaceBetween)
+    .horizontal_margin(2)
+    .vertical_margin(2)
+    .split_with_spacers(c_v[1]);
+    f.render_widget(
+        Block::bordered()
+            .title("Help".red())
+            .title_alignment(Alignment::Center),
+        c_v[1],
+    );
+
+    for (c, section) in sections.enumerate() {
+        let mut lines = section.lines();
+        let section_title = lines.next().unwrap();
+
+        let mut max_key = 0;
+        let mut max_desc = 0;
+
+        let rows: Vec<_> = lines
+            .map(|l| {
+                let Some((key, desc)) = l.split_once(char::is_whitespace) else {
+                    dbg!(section_title);
+                    dbg!(l);
+                    panic!("fucked up");
+                };
+
+                max_key = cmp::max(max_key, key.len() + 1);
+                max_desc = cmp::max(max_desc, desc.len() + 1);
+
+                let mut key_styled = Line::default();
+                for c in key.chars() {
+                    key_styled.spans.push(match c {
+                        '/' => Span::raw("/"),
+                        _ => Span::styled(String::from(c), Style::default().fg(Color::Red)),
+                    })
+                }
+
+                Row::new([key_styled, Line::raw(desc.trim())])
+            })
+            .collect();
+
+        let table = Table::new(
+            rows,
+            Constraint::from_lengths([max_key as u16, max_desc as u16]),
+        )
+        .block(
+            Block::default()
+                .borders(Borders::TOP)
+                .title(section_title.red())
+                .title_alignment(Alignment::Center),
+        );
+
+        f.render_widget(table, areas[c])
     }
 }
 
@@ -396,8 +489,10 @@ impl DraftEditor {
             KeyCode::Up => self.line = self.line.saturating_sub(1),
             KeyCode::Left if self.draws.len() > 0 => self.rotate_current_element(lib, Dir::Left),
             KeyCode::Right if self.draws.len() > 0 => self.rotate_current_element(lib, Dir::Right),
-            KeyCode::Backspace if self.draws.len() > 0 => self.delete_current_element(),
-            KeyCode::Char('a' | 'A') => self.add_plain_mark(),
+            KeyCode::Backspace | KeyCode::Char('-') if self.draws.len() > 0 => {
+                self.delete_current_element()
+            }
+            KeyCode::Char('a' | 'A' | '+') => self.add_plain_mark(),
             KeyCode::Char('c' | 'C') if self.draws.len() > 0 => self.add_or_modify_category(lib),
             KeyCode::Char('p' | 'P') if self.draws.len() > 0 => self.add_or_modify_power(),
             KeyCode::Char('t' | 'T') if self.draws.len() > 0 => self.add_tag(lib),

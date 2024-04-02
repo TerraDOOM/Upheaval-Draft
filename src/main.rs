@@ -15,13 +15,19 @@ type Terminal = ratatui::Terminal<CrosstermBackend<io::Stdout>>;
 
 mod ui;
 
-use ui::UiState;
+use ui::{Results, UiState};
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 struct Library {
     list: Vec<(Mark, bool)>,
     categories: BTreeSet<String>,
     tags: BTreeSet<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+struct SaveFile {
+    library: Library,
+    results: Results,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -45,7 +51,7 @@ enum Power {
     Unique,
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 struct Draw {
     power: Option<Power>,
     category: Option<String>,
@@ -69,8 +75,8 @@ fn main() -> anyhow::Result<()> {
         .to_str()
         .unwrap();
 
-    let mut library: Library = match ext {
-        "csv" => parse_library_file(&library_file_name)?,
+    let mut save: SaveFile = match ext {
+        "csv" => SaveFile::parse_library_file(&library_file_name)?,
         "json" => {
             let f = File::open(library_file_name)?;
             serde_json::from_reader(f)?
@@ -84,7 +90,7 @@ fn main() -> anyhow::Result<()> {
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
 
-    let res = run_eventloop(&mut library, &mut terminal);
+    let res = run_eventloop(save, &mut terminal);
 
     disable_raw_mode()?;
     execute!(terminal.backend_mut(), LeaveAlternateScreen)?;
@@ -93,8 +99,13 @@ fn main() -> anyhow::Result<()> {
     res
 }
 
-fn run_eventloop(library: &mut Library, terminal: &mut Terminal) -> anyhow::Result<()> {
-    let mut state = UiState::new(library, terminal);
+fn run_eventloop(save: SaveFile, terminal: &mut Terminal) -> anyhow::Result<()> {
+    let SaveFile {
+        mut library,
+        results: past_results,
+    } = save;
+
+    let mut state = UiState::new(&mut library, terminal, past_results);
 
     state.draw()?;
 
@@ -102,7 +113,7 @@ fn run_eventloop(library: &mut Library, terminal: &mut Terminal) -> anyhow::Resu
         let ev = event::read()?;
 
         match ev {
-            Event::Key(ev) => match state.input(ev) {
+            Event::Key(ev) => match state.input(ev)? {
                 ControlFlow::Break(_) => break,
                 ControlFlow::Continue(_) => {}
             },
@@ -161,73 +172,78 @@ impl Library {
     }
 }
 
-fn parse_library_file<S: AsRef<Path>>(path: S) -> anyhow::Result<Library> {
-    // NAME,POWER,CATEGORY,TAG,TAG,DESCRIPTION
+impl SaveFile {
+    fn parse_library_file<S: AsRef<Path>>(path: S) -> anyhow::Result<Self> {
+        // NAME,POWER,CATEGORY,TAG,TAG,DESCRIPTION
 
-    let mut rdr = csv::Reader::from_path(path)?;
-    let tag_count = rdr.headers()?.iter().filter(|f| f == &"TAG").count();
-    let mut v = Vec::new();
+        let mut rdr = csv::Reader::from_path(path)?;
+        let tag_count = rdr.headers()?.iter().filter(|f| f == &"TAG").count();
+        let mut v = Vec::new();
 
-    let mut categories = BTreeSet::new();
-    let mut all_tags = BTreeSet::new();
+        let mut categories = BTreeSet::new();
+        let mut all_tags = BTreeSet::new();
 
-    for result in rdr.into_records() {
-        use Power as P;
+        for result in rdr.into_records() {
+            use Power as P;
 
-        let record = result?;
-        let mut fields = record.iter();
-        let mut next = || {
-            fields
-                .next()
-                .ok_or(anyhow::Error::msg("Malformed library csv"))
-        };
+            let record = result?;
+            let mut fields = record.iter();
+            let mut next = || {
+                fields
+                    .next()
+                    .ok_or(anyhow::Error::msg("Malformed library csv"))
+            };
 
-        let name = next()?.to_string();
-        let power = match next()? {
-            "Poor" => P::Poor,
-            "Moderate" => P::Moderate,
-            "Good" => P::Good,
-            "Great" => P::Great,
-            "Supreme" => P::Supreme,
-            "Unique" => P::Unique,
-            "Bad Karma" => P::BadKarma,
-            e => bail!("Unknown power level {:?}", e),
-        };
+            let name = next()?.to_string();
+            let power = match next()? {
+                "Poor" => P::Poor,
+                "Moderate" => P::Moderate,
+                "Good" => P::Good,
+                "Great" => P::Great,
+                "Supreme" => P::Supreme,
+                "Unique" => P::Unique,
+                "Bad Karma" => P::BadKarma,
+                e => bail!("Unknown power level {:?}", e),
+            };
 
-        let category = next()?.to_string();
-        if !categories.contains(&category) && category != "" {
-            categories.insert(category.clone());
-        }
+            let category = next()?.to_string();
+            if !categories.contains(&category) && category != "" {
+                categories.insert(category.clone());
+            }
 
-        let mut tags = BTreeSet::new();
-        for _ in 0..tag_count {
-            match next()? {
-                "" => continue,
-                t => {
-                    tags.insert(t.to_string());
-                    if !all_tags.contains(t) {
-                        all_tags.insert(t.to_string());
+            let mut tags = BTreeSet::new();
+            for _ in 0..tag_count {
+                match next()? {
+                    "" => continue,
+                    t => {
+                        tags.insert(t.to_string());
+                        if !all_tags.contains(t) {
+                            all_tags.insert(t.to_string());
+                        }
                     }
                 }
             }
+
+            let description = next()?.to_string();
+
+            let mark = Mark {
+                name,
+                power,
+                category,
+                tags,
+                description,
+            };
+
+            v.push((mark, true));
         }
 
-        let description = next()?.to_string();
-
-        let mark = Mark {
-            name,
-            power,
-            category,
-            tags,
-            description,
-        };
-
-        v.push((mark, true));
+        Ok(SaveFile {
+            library: Library {
+                list: v,
+                categories,
+                tags: all_tags,
+            },
+            ..Default::default()
+        })
     }
-
-    Ok(Library {
-        list: v,
-        categories,
-        tags: all_tags,
-    })
 }

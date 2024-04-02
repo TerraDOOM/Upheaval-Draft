@@ -1,12 +1,14 @@
-use std::{cmp, ops::ControlFlow};
+use std::{borrow::Cow, cmp, fs::File, io::Write, ops::ControlFlow};
 
 use crossterm::event::{KeyCode, KeyEvent};
 use rand::prelude::*;
 use ratatui::{prelude::*, style::Stylize, widgets::*};
+use serde::{Deserialize, Serialize};
 
-use crate::{Draw, Library, Mark, Power};
+use crate::{Draw, Library, Mark, Power, SaveFile};
 
 const CONT: ControlFlow<()> = ControlFlow::Continue(());
+const BREAK: ControlFlow<()> = ControlFlow::Break(());
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum Pane {
@@ -23,6 +25,8 @@ pub enum Tab {
 pub struct UiState<'a> {
     pub library: &'a mut Library,
     pub terminal: &'a mut crate::Terminal,
+    save_box: Prompt<'static>,
+    is_saving: bool,
     draft_view: DraftView,
     tab: Tab,
     results: Results,
@@ -36,28 +40,61 @@ pub struct DraftView {
 }
 
 impl<'a> UiState<'a> {
-    pub fn new(library: &'a mut Library, terminal: &'a mut crate::Terminal) -> Self {
+    pub fn new(
+        library: &'a mut Library,
+        terminal: &'a mut crate::Terminal,
+        results: Results,
+    ) -> Self {
         let len = library.list.len();
         UiState {
             library,
             terminal,
+            results,
+            save_box: Prompt {
+                title: Line::raw("Save as"),
+                postfix: Span::raw(".json"),
+                max_width: 32,
+                ..Default::default()
+            },
+            is_saving: false,
             draft_view: DraftView::new(len),
             tab: Tab::DraftCreation,
-            results: Results::default(),
             rng: rand::thread_rng(),
         }
     }
 
-    pub fn input(&mut self, ev: KeyEvent) -> ControlFlow<()> {
+    pub fn save(&mut self) -> anyhow::Result<()> {
+        let library = self.library.clone();
+        let results = self.results.clone();
+
+        let save = SaveFile { library, results };
+
+        Ok(())
+    }
+
+    pub fn input(&mut self, ev: KeyEvent) -> anyhow::Result<ControlFlow<()>> {
         match ev.code {
-            KeyCode::Esc | KeyCode::Char('q') => ControlFlow::Break(()),
+            KeyCode::Char('s' | 'S') => {
+                self.is_saving = true;
+            }
+            k if self.is_saving => {
+                let res = self.save_box.input(ev);
+                self.is_saving = match res {
+                    ControlFlow::Continue(_) => true,
+                    ControlFlow::Break(b) => {
+                        if b {
+                            save(&self.library, &self.results, &self.save_box.text)?;
+                        }
+                        false
+                    }
+                };
+            }
+            KeyCode::Esc | KeyCode::Char('q' | 'Q') => return Ok(BREAK),
             KeyCode::Char('d' | 'D') => {
                 self.tab = Tab::DraftCreation;
-                CONT
             }
             KeyCode::Char('r' | 'R') => {
                 self.tab = Tab::Results;
-                CONT
             }
             KeyCode::Enter
                 if self.draft_view.selected_tab == Pane::Left && self.tab == Tab::DraftCreation =>
@@ -72,15 +109,17 @@ impl<'a> UiState<'a> {
                 self.results
                     .state
                     .select(Some(self.results.results.len() - 1));
-                CONT
             }
-            _ if self.tab == Tab::DraftCreation => self.draft_view.input(&mut self.library, ev),
+            _ if self.tab == Tab::DraftCreation => {
+                return Ok(self.draft_view.input(&mut self.library, ev))
+            }
             k if self.tab == Tab::Results => {
                 self.results.input(k);
-                CONT
             }
-            _ => CONT,
+            _ => {}
         }
+
+        Ok(CONT)
     }
 
     pub fn draw(&mut self) -> anyhow::Result<()> {
@@ -117,15 +156,20 @@ impl<'a> UiState<'a> {
                 Tab::DraftCreation => self.draft_view.draw(&*self.library, f, inner),
                 Tab::Results => self.results.draw(f, inner),
             }
+
+            if self.is_saving {
+                self.save_box.draw(f, f.size());
+            }
         })?;
 
         Ok(())
     }
 }
 
-#[derive(Default)]
+#[derive(Default, Clone, Debug, Serialize, Deserialize)]
 pub struct Results {
     results: Vec<(Vec<Mark>, Vec<Draw>)>,
+    #[serde(skip)]
     state: ListState,
 }
 
@@ -716,4 +760,99 @@ fn power_str(p: Power) -> Span<'static> {
         Power::Unique => "Unique".magenta(),
         Power::BadKarma => "Bad Karma".black().on_red().bold(),
     }
+}
+
+#[derive(Clone, Debug, Default)]
+struct Prompt<'a> {
+    pub text: String,
+    pub title: Line<'a>,
+    pub prefix: Span<'a>,
+    pub postfix: Span<'a>,
+    pub cursor_pos: usize,
+    pub max_width: usize,
+}
+
+impl<'a> Prompt<'a> {
+    fn input(&mut self, ev: KeyEvent) -> ControlFlow<bool> {
+        match ev.code {
+            KeyCode::Esc => return ControlFlow::Break(false),
+            KeyCode::Enter => return ControlFlow::Break(true),
+            KeyCode::Char(c) if c.is_ascii() => {
+                self.text.insert(self.cursor_pos, c);
+                self.cursor_pos += 1;
+            }
+            KeyCode::Backspace if self.cursor_pos > 0 && self.text.len() > 0 => {
+                self.text.remove(self.cursor_pos - 1);
+                self.cursor_pos -= 1;
+            }
+            KeyCode::Right => self.cursor_pos = cmp::min(self.cursor_pos + 1, self.max_width - 1),
+            KeyCode::Left => self.cursor_pos = self.cursor_pos.saturating_sub(1),
+            _ => {}
+        }
+
+        ControlFlow::Continue(())
+    }
+
+    fn draw(&mut self, f: &mut Frame, area: Rect) {
+        let layout = Layout::vertical([
+            Constraint::Fill(1),
+            Constraint::Length(3),
+            Constraint::Fill(1),
+        ])
+        .split(area);
+
+        let area = layout[1];
+
+        let mut par_text = Line::default().spans([
+            self.prefix.clone(),
+            Span::raw(format!(
+                "{content:_<width$}",
+                content = self.text,
+                width = self.max_width,
+            )),
+            self.postfix.clone(),
+        ]);
+
+        let width = par_text.width() + 4;
+
+        let layout = Layout::horizontal([
+            Constraint::Fill(1),
+            Constraint::Length(width as u16),
+            Constraint::Fill(1),
+        ])
+        .split(area);
+
+        let area = layout[1];
+
+        let mut text = Text::from(par_text);
+
+        // left side + border + pad + prefix len + cursor_pos + one after
+        let cursor_x = area.x + 2 + self.prefix.content.len() as u16 + self.cursor_pos as u16;
+        let cursor_y = area.y + 1;
+
+        f.set_cursor(cursor_x, cursor_y);
+
+        let par = Paragraph::new(text)
+            .centered()
+            .block(Block::bordered().title(self.title.clone()));
+
+        f.render_widget(Clear, area);
+        f.render_widget(par, area);
+    }
+}
+
+fn save(library: &Library, results: &Results, filename: &str) -> anyhow::Result<()> {
+    let library = library.clone();
+    let results = results.clone();
+    let savefile = SaveFile { library, results };
+
+    let save = format!("{}.json", filename);
+
+    let mut f = File::create(save)?;
+
+    serde_json::to_writer(&mut f, &savefile)?;
+
+    f.flush()?;
+
+    Ok(())
 }

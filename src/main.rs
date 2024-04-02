@@ -75,7 +75,7 @@ fn main() -> anyhow::Result<()> {
         .to_str()
         .unwrap();
 
-    let mut save: SaveFile = match ext {
+    let save: SaveFile = match ext {
         "csv" => SaveFile::parse_library_file(&library_file_name)?,
         "json" => {
             let f = File::open(library_file_name)?;

@@ -1,4 +1,4 @@
-use std::{borrow::Cow, cmp, fs::File, io::Write, ops::ControlFlow};
+use std::{cmp, fs::File, io::Write, ops::ControlFlow};
 
 use crossterm::event::{KeyCode, KeyEvent};
 use rand::prelude::*;
@@ -65,15 +65,6 @@ impl<'a> UiState<'a> {
         }
     }
 
-    pub fn save(&mut self) -> anyhow::Result<()> {
-        let library = self.library.clone();
-        let results = self.results.clone();
-
-        let save = SaveFile { library, results };
-
-        Ok(())
-    }
-
     pub fn input(&mut self, ev: KeyEvent) -> anyhow::Result<ControlFlow<()>> {
         match ev.code {
             KeyCode::Char('s' | 'S') => {
@@ -85,7 +76,7 @@ impl<'a> UiState<'a> {
             KeyCode::Esc if self.show_help => {
                 self.show_help = false;
             }
-            k if self.is_saving => {
+            _ if self.is_saving => {
                 let res = self.save_box.input(ev);
                 self.is_saving = match res {
                     ControlFlow::Continue(_) => true,
@@ -192,8 +183,6 @@ fn show_help_popup(f: &mut Frame) {
             Constraint::Fill(1),
         ]
     };
-
-    let n_sections = sections.clone().count();
 
     let c_h = Layout::horizontal(c(help_width as u16 + 4)).split(f.size());
     let c_v = Layout::vertical(c(help_height as u16 + 4)).split(c_h[1]);
@@ -898,7 +887,7 @@ impl<'a> Prompt<'a> {
 
         let area = layout[1];
 
-        let mut par_text = Line::default().spans([
+        let par_text = Line::default().spans([
             self.prefix.clone(),
             Span::raw(format!(
                 "{content:_<width$}",
@@ -919,7 +908,7 @@ impl<'a> Prompt<'a> {
 
         let area = layout[1];
 
-        let mut text = Text::from(par_text);
+        let text = Text::from(par_text);
 
         // left side + border + pad + prefix len + cursor_pos + one after
         let cursor_x = area.x + 2 + self.prefix.content.len() as u16 + self.cursor_pos as u16;
